@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import { useDrawStore } from '../../store';
 import { Button, Input, Modal } from '../../components/ui';
-import { normalizePhoneNumber, formatPhoneForDisplay, parsePhoneNumber } from '../../services';
+import { normalizePhoneNumber as _normalizePhoneNumber, formatPhoneForDisplay, parsePhoneNumber } from '../../services';
 import { normalizeNameForComparison } from '../../types';
 
 export default function ParticipantsStep() {
