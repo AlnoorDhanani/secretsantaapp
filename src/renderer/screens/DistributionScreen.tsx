@@ -16,6 +16,27 @@ export default function DistributionScreen() {
 
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
+  // Temporary dev-only handler for testing SMS wiring
+  const handleTestSMS = async () => {
+    try {
+      const result = await window.electronAPI.sms.send(
+        '+13182435529',
+        'Secret Santa test SMS from Results screen (dry run)'
+      );
+      // eslint-disable-next-line no-console
+      console.log('SMS send result:', result);
+      if (result.success) {
+        alert(`SMS ${result.dryRun ? 'logged (dry run)' : 'sent'} successfully!\nMessage ID: ${result.messageId}`);
+      } else {
+        alert(`SMS failed: ${result.error}`);
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('SMS send error:', err);
+      alert(`SMS error: ${err instanceof Error ? err.message : 'Unknown error'}`);
+    }
+  };
+
   if (!currentDraw || !currentDraw.assignments) return null;
 
   const { participants, assignments } = currentDraw;
@@ -246,6 +267,26 @@ export default function DistributionScreen() {
                   />
                 </svg>
                 Regenerate
+              </Button>
+              {/* Temporary dev-only button for testing SMS wiring */}
+              <Button
+                variant="outline"
+                onClick={handleTestSMS}
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                  />
+                </svg>
+                Send Test SMS
               </Button>
             </div>
           </div>
