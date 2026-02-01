@@ -10,7 +10,7 @@ import { Button } from '../../components/ui';
 import { generateAssignments, validateConstraints, getConstraintSummary } from '../../services';
 
 export default function GenerateStep() {
-  const { currentDraw, setAssignments, clearAssignments } = useDrawStore();
+  const { currentDraw, setAssignments, clearAssignments: _clearAssignments } = useDrawStore();
   const { setStep } = useUIStore();
   const { logAction } = useAuditStore();
 

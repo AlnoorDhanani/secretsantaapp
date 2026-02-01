@@ -65,7 +65,7 @@ export default function VaultScreen() {
       setCopiedId(giverId);
       logAction('ASSIGNMENT_COPIED', giverId);
       setTimeout(() => setCopiedId(null), 2000);
-    } catch (error) {
+    } catch {
       alert('Failed to copy to clipboard');
     }
   };

@@ -26,7 +26,7 @@ const STEPS: { id: Step; label: string }[] = [
 
 export default function DrawEditor() {
   const { currentDraw, isDirty, filePath, markSaved, reset } = useDrawStore();
-  const { currentStep, setStep, vaultUnlocked, lockVault } = useUIStore();
+  const { currentStep, setStep, vaultUnlocked, lockVault: _lockVault } = useUIStore();
   const { entries: auditEntries } = useAuditStore();
 
   if (!currentDraw) return null;
