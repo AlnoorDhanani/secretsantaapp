@@ -37,7 +37,7 @@ export default function DistributionScreen() {
 
       // Reset copied indicator after 2 seconds
       setTimeout(() => setCopiedId(null), 2000);
-    } catch (error) {
+    } catch {
       alert('Failed to copy to clipboard');
     }
   };
