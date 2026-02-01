@@ -32,12 +32,31 @@ const fileApi = {
   importCsv: () => ipcRenderer.invoke('file:importCsv'),
 };
 
+/**
+ * SMS operations API exposed to renderer (local dev only)
+ */
+const smsApi = {
+  /**
+   * Send an SMS message via Twilio
+   * @param to - Recipient phone number in E.164 format
+   * @param body - Message body
+   */
+  send: (to: string, body: string) => ipcRenderer.invoke('sms:send', { to, body }),
+
+  /**
+   * Get SMS configuration status
+   */
+  getStatus: () => ipcRenderer.invoke('sms:status'),
+};
+
 // Expose APIs to renderer
 contextBridge.exposeInMainWorld('electronAPI', {
   file: fileApi,
+  sms: smsApi,
 });
 
 // Type declarations for renderer
 export type ElectronAPI = {
   file: typeof fileApi;
+  sms: typeof smsApi;
 };

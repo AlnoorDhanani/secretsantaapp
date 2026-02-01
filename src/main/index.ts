@@ -7,6 +7,7 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
+import { sendSMS, getSMSStatus } from '../lib/sms';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -184,4 +185,21 @@ ipcMain.handle('file:importCsv', async () => {
       error: error instanceof Error ? error.message : 'Failed to read CSV',
     };
   }
+});
+
+// IPC Handlers for SMS operations (local dev only)
+
+/**
+ * Send SMS via Twilio
+ * POST /api/sms equivalent via IPC
+ */
+ipcMain.handle('sms:send', async (_event, { to, body }) => {
+  return sendSMS(to, body);
+});
+
+/**
+ * Get SMS configuration status
+ */
+ipcMain.handle('sms:status', async () => {
+  return getSMSStatus();
 });
