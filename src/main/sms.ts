@@ -6,7 +6,7 @@
  */
 
 /* eslint-disable no-console */
-
+import 'dotenv/config';
 import Twilio from 'twilio';
 
 const COMPLIANCE_FOOTER = '\n\nReply STOP to opt out. Msg & data rates may apply.';
@@ -36,8 +36,10 @@ export interface SMSResult {
  * @throws Error if required credentials are missing (unless in dry-run mode)
  */
 function getConfig(): SMSConfig {
-  const dryRun = process.env.TWILIO_DRY_RUN !== 'false';
+  const dryRun =
+  (process.env.TWILIO_DRY_RUN ?? 'true').trim().toLowerCase() !== 'false';
 
+console.log('[ENV main TWILIO_DRY_RUN]', JSON.stringify(process.env.TWILIO_DRY_RUN), '→ dryRun =', dryRun);
   const config: SMSConfig = {
     accountSid: process.env.TWILIO_ACCOUNT_SID || '',
     authToken: process.env.TWILIO_AUTH_TOKEN || '',
@@ -159,7 +161,8 @@ export function isSMSConfigured(): boolean {
  * Returns the current SMS configuration status (without exposing credentials).
  */
 export function getSMSStatus(): { configured: boolean; dryRun: boolean; fromNumber?: string } {
-  const dryRun = process.env.TWILIO_DRY_RUN !== 'false';
+ const dryRun =
+  (process.env.TWILIO_DRY_RUN ?? 'true').trim().toLowerCase() !== 'false';
 
   return {
     configured: isSMSConfigured(),

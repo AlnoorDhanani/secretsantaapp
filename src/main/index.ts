@@ -7,7 +7,7 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
-import { sendSMS, getSMSStatus } from '../lib/sms';
+import { sendSMS, getSMSStatus } from './sms'
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -194,6 +194,7 @@ ipcMain.handle('file:importCsv', async () => {
  * POST /api/sms equivalent via IPC
  */
 ipcMain.handle('sms:send', async (_event, { to, body }) => {
+  console.log('[IPC sms:send]', { to, body }); // <-- add this line
   return sendSMS(to, body);
 });
 

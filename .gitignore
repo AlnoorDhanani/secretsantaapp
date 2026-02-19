@@ -40,3 +40,5 @@ temp/
 
 # Secret Santa files (don't commit draw data)
 *.secretsanta
+.env
+.env
