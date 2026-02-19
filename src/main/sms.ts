@@ -9,6 +9,8 @@
 import 'dotenv/config';
 import Twilio from 'twilio';
 
+const COMPLIANCE_FOOTER = '\n\nReply STOP to opt out. Msg & data rates may apply.';
+
 /**
  * SMS configuration loaded from environment variables
  */
@@ -96,12 +98,14 @@ export async function sendSMS(to: string, body: string): Promise<SMSResult> {
     };
   }
 
+  const fullBody = body.trim() + COMPLIANCE_FOOTER;
+
   // Dry-run mode: log instead of sending
   if (config.dryRun) {
     console.log('[SMS DRY-RUN] Would send message:');
     console.log(`  To: ${to}`);
     console.log(`  From: ${config.fromNumber || '(not configured)'}`);
-    console.log(`  Body: ${body}`);
+    console.log(`  Body: ${fullBody}`);
     console.log('---');
 
     return {
@@ -118,7 +122,7 @@ export async function sendSMS(to: string, body: string): Promise<SMSResult> {
     const message = await client.messages.create({
       to,
       from: config.fromNumber,
-      body,
+      body: fullBody,
     });
 
     console.log(`[SMS] Message sent successfully: ${message.sid}`);
